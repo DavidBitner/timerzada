@@ -1,6 +1,5 @@
 # Em construção
 from tkinter import *
-from time import sleep
 
 
 # Função para selecionar o texto que estiver dentro da caixa de texto das horas
@@ -20,33 +19,55 @@ def segundos_entry_callback(event):
 
 # Função do timer
 def timer():
-    global timer_label
-    global stop_btn
+    # Imports para o alarme
+    from datetime import datetime, timedelta
+    import pygame
+
+    # Função do botão stop
+    def stop():
+        pygame.mixer.music.stop()
+        stop_btn.destroy()
+        agora_label.destroy()
+        despertar_label.destroy()
+
+    # Variaveis para o timer funcionar
+    base = datetime.now()
+    agora = base.strftime("%H:%M:%S")
     horas = int(horas_entry.get())
     minutos = int(minutos_entry.get())
     segundos = int(segundos_entry.get())
+    tempo_adicionado = timedelta(hours=horas, minutes=minutos, seconds=segundos)
+    base2 = base + tempo_adicionado
+    tempo_despertar = base2.strftime("%H:%M:%S")
 
-    while horas > 0 or minutos > 0 or segundos > 0:
-        timer_label.destroy()
-        stop_btn.destroy()
-        timer_label = Label(root, text=f"{horas} : {minutos} : {segundos}", font=("Helvetica", 40))
-        timer_label.pack()
-        timer_label.update()
-        stop_btn = Button(root, text="STOP", height=2, width=20)
-        stop_btn.pack()
-        stop_btn.update()
-        if segundos > 0:
-            segundos -= 1
-        elif segundos == 0:
-            if minutos > 0:
-                minutos -= 1
-                segundos = 59
-            if minutos == 0:
-                if horas > 0:
-                    horas -= 1
-                    minutos = 59
-                    segundos = 59
-        sleep(1)
+    # Declaração das labels do timer
+    agora_label = Label(frame, text=agora, font=("Helvetica", 15))
+    despertar_label = Label(frame, text=tempo_despertar, font=("Helvetica", 15))
+
+    # Posicionamento das labels do timer
+    agora_label.grid(row=5, column=0, columnspan=3)
+    despertar_label.grid(row=6, column=0, columnspan=3)
+
+    # Botão para parar o alarme
+    stop_btn = Button(frame, text="STOP", height=2, width=20, command=stop)
+    stop_btn.grid(row=3, column=0, columnspan=3, padx=20, pady=20)
+
+    # Função para o alarme funcionar
+    while base < base2:
+        base = datetime.now()
+        agora = base.strftime("%H:%M:%S")
+        agora_label.grid_forget()
+        agora_label = Label(frame, text=agora, font=("Helvetica", 15))
+        agora_label.grid(row=5, column=0, columnspan=3)
+        agora_label.update()
+
+    # Código para tocar o alarme
+    mp3 = "toques/Feint - The Things Weve Seen.mp3"
+    pygame.mixer.init()
+    pygame.init()
+    pygame.mixer.music.load('{}'.format(mp3))
+    pygame.mixer.music.play()
+    return
 
 
 # Main
@@ -55,7 +76,6 @@ root.title("Timerzada")
 root.geometry("500x500+200+200")
 
 timer_label = Label(root)
-stop_btn = Button(root)
 
 # Frame
 frame = LabelFrame(root, padx=5, pady=5)
