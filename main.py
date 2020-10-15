@@ -67,15 +67,12 @@ def timer():
     pygame.init()
     pygame.mixer.music.load('{}'.format(mp3))
     pygame.mixer.music.play()
-    return
 
 
 # Main
 root = Tk()
 root.title("Timerzada")
 root.geometry("500x500+200+200")
-
-timer_label = Label(root)
 
 # Frame
 frame = LabelFrame(root, padx=5, pady=5)
