@@ -48,10 +48,6 @@ def timer():
     agora_label.grid(row=5, column=0, columnspan=3)
     despertar_label.grid(row=6, column=0, columnspan=3)
 
-    # Botão para parar o alarme
-    stop_btn = Button(frame, text="STOP", height=2, width=20, command=stop)
-    stop_btn.grid(row=3, column=0, columnspan=3, padx=20, pady=20)
-
     # Função para o alarme funcionar
     while base < base2:
         base = datetime.now()
@@ -62,11 +58,16 @@ def timer():
         agora_label.update()
 
     # Código para tocar o alarme
-    mp3 = "toques/Feint - The Things Weve Seen.mp3"
-    pygame.mixer.init()
-    pygame.init()
-    pygame.mixer.music.load('{}'.format(mp3))
-    pygame.mixer.music.play()
+    if base >= base2:
+        # Botão para parar o alarme
+        stop_btn = Button(frame, text="STOP", height=2, width=20, command=stop)
+        stop_btn.grid(row=3, column=0, columnspan=3, padx=20, pady=20)
+
+        mp3 = "toques/Feint - The Things Weve Seen.mp3"
+        pygame.mixer.init()
+        pygame.init()
+        pygame.mixer.music.load('{}'.format(mp3))
+        pygame.mixer.music.play()
 
 
 # Main
