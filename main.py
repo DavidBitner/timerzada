@@ -19,9 +19,16 @@ def segundos_entry_callback(event):
 
 # Função do timer
 def timer():
+    global agora_label
+    global despertar_label
+
     # Imports para o alarme
     from datetime import datetime, timedelta
     import pygame
+
+    # Destruir as labels de timing
+    agora_label.destroy()
+    despertar_label.destroy()
 
     # Função do botão stop
     def stop():
@@ -78,6 +85,10 @@ root.geometry("500x500+200+200")
 # Frame
 frame = LabelFrame(root, padx=5, pady=5)
 frame.pack(padx=40, pady=40)
+
+# Declaração das labels para uso depois de ativar o timer
+agora_label = Label(frame)
+despertar_label = Label(frame)
 
 # Titulo do programa
 titulo_label = Label(frame, text="TIMERZADA", font=("Helvetica", 20))
