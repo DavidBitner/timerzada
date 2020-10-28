@@ -21,6 +21,7 @@ def segundos_entry_callback(event):
 def timer():
     global agora_label
     global despertar_label
+    global stop_btn
 
     # Imports para o alarme
     from datetime import datetime, timedelta
@@ -67,6 +68,7 @@ def timer():
     # Código para tocar o alarme
     if base >= base2:
         # Botão para parar o alarme
+        stop_btn.destroy()
         stop_btn = Button(frame, text="STOP", height=2, width=20, command=stop)
         stop_btn.grid(row=3, column=0, columnspan=3, padx=20, pady=20)
 
@@ -89,6 +91,7 @@ frame.pack(padx=40, pady=40)
 # Declaração das labels para uso depois de ativar o timer
 agora_label = Label(frame)
 despertar_label = Label(frame)
+stop_btn = Button(frame)
 
 # Titulo do programa
 titulo_label = Label(frame, text="TIMERZADA", font=("Helvetica", 20))
