@@ -1,5 +1,12 @@
 # Em construção
-from tkinter import *
+from tkinter import Entry 
+from tkinter import Label
+from tkinter import LabelFrame
+from tkinter import Tk
+from tkinter import Button
+from tkinter import END
+from tkinter import Radiobutton
+from tkinter import W, E, IntVar
 
 
 # Função para selecionar o texto que estiver dentro da caixa de texto das horas
@@ -25,18 +32,16 @@ def timer():
 
     # Imports para o alarme
     from datetime import datetime, timedelta
+    from os import system
     import pygame
-
-    # Destruir as labels de timing
-    agora_label.destroy()
-    despertar_label.destroy()
 
     # Função do botão stop
     def stop():
-        pygame.mixer.music.stop()
-        stop_btn.destroy()
-        agora_label.destroy()
-        despertar_label.destroy()
+        if opcao == 1:
+            pygame.mixer.music.stop()
+            stop_btn.destroy()
+            agora_label.destroy()
+            despertar_label.destroy()
 
     # Variaveis para o timer funcionar
     base = datetime.now()
@@ -49,6 +54,8 @@ def timer():
     tempo_despertar = base2.strftime("%H:%M:%S")
 
     # Declaração das labels do timer
+    agora_label.destroy()
+    despertar_label.destroy()
     agora_label = Label(frame, text=agora, font=("Helvetica", 15))
     despertar_label = Label(frame, text=tempo_despertar, font=("Helvetica", 15))
 
@@ -70,13 +77,18 @@ def timer():
         # Botão para parar o alarme
         stop_btn.destroy()
         stop_btn = Button(frame, text="STOP", height=2, width=20, command=stop)
-        stop_btn.grid(row=3, column=0, columnspan=3, padx=20, pady=20)
+        stop_btn.grid(row=4, column=0, columnspan=3, padx=20, pady=20)
+        opcao = v.get()
 
-        mp3 = "toques/Feint - The Things Weve Seen.mp3"
-        pygame.mixer.init()
-        pygame.init()
-        pygame.mixer.music.load('{}'.format(mp3))
-        pygame.mixer.music.play()
+        if opcao == 1:
+            mp3 = "toques/Feint - The Things Weve Seen.mp3"
+            pygame.mixer.init()
+            pygame.mixer.music.load(mp3)
+            pygame.mixer.music.play()
+        elif opcao == 2:
+            system("shutdown /s /t 1")
+        elif opcao == 3:
+            pass
 
 
 # Main
@@ -121,8 +133,17 @@ horas_label.grid(row=2, column=0)
 minutos_label.grid(row=2, column=1)
 segundos_label.grid(row=2, column=2)
 
+# Opções do timer
+v = IntVar()
+radio1 = Radiobutton(frame, text="Despertar", variable=v, value=1, anchor=W)
+radio2 = Radiobutton(frame, text="Desligar", variable=v, value=2, anchor=W)
+radio3 = Radiobutton(frame, text="Placeholder", variable=v, value=3, anchor=W)
+radio1.grid(row=3, column=0, sticky=W + E)
+radio2.grid(row=3, column=1, sticky=W + E)
+radio3.grid(row=3, column=2, sticky=W + E)
+
 # Botões do timer
 start_btn = Button(frame, text="START", height=2, width=20, command=timer)
-start_btn.grid(row=3, column=0, columnspan=3, padx=20, pady=20)
+start_btn.grid(row=4, column=0, columnspan=3, padx=20, pady=20)
 
 root.mainloop()
