@@ -42,6 +42,11 @@ def timer():
             stop_btn.destroy()
             agora_label.destroy()
             despertar_label.destroy()
+        else:
+            stop_btn.destroy()
+            agora_label.destroy()
+            despertar_label.destroy()
+
 
     # Variaveis para o timer funcionar
     base = datetime.now()
